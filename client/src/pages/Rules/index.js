@@ -1,8 +1,6 @@
 import React from "react";
 import { useAuth } from "../../components/UserAuth";
 import history from "../../utils/history";
-import useSound from 'use-sound';
-import soundEnums from '../../SpriteEnums.js';
 import { useSfx } from "../../components/SoundSuite/index";
 
 function Rules() {
@@ -39,7 +37,7 @@ function Rules() {
                 onClick={(event) => {
                     event.preventDefault();
                     event.stopPropagation();
-                    sfx.sfxSound('pop');
+                    sfx.sfxSound('shot-1');
                     history.push("/signup");
                 }}
             >

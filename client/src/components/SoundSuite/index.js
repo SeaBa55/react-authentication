@@ -64,16 +64,16 @@ function useProvideSfx() {
 
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
-  const [masterVol, setMasterVol] = useState(0.5);
+  const [masterVol, setMasterVol] = useState(1.0);
   const [nextFile, setNextFile] = useState('');
   const [ambientFile, setAmbientFile] = useState('background-0');
-  const [sfxFile, setSfxFile] = useState('background-0');
+  const [sfxFile, setSfxFile] = useState('pop');
   const [ambientVol, setAmbientVol] = useState(0.5);
   const [sfxVol, setSfxVol] = useState(0.5);
   const [auto, setAuto] = useState(false);
   const [sfxAuto, setSFXAuto] = useState(false);
 
-  const [play, { stop, pause, isPlaying } ] = useSound(
+  const [play, { pause, isPlaying } ] = useSound(
     soundEnums[ambientFile].src,
     { 
       autoplay: auto,
@@ -85,10 +85,11 @@ function useProvideSfx() {
     }, 
   );
 
-  const [playSfx] = useSound(
+  const [playSfx, { stop, sound }] = useSound(
     soundEnums[sfxFile].src,
     { 
       autoplay: sfxAuto,
+      preload: true,
       loop: false,
       volume: masterVol*sfxVol,
       id: sfxFile,
@@ -98,11 +99,13 @@ function useProvideSfx() {
 
   const mute = (enable) => {
     if(enable) {
-      setAuto(false);
+      setSFXAuto(false);
+      setAuto(true);
       setSoundEnabled(true);
       play();
     }else{
-      setAuto(true);
+      setAuto(false);
+      setSFXAuto(false);
       setSoundEnabled(false);
       pause();
     };
@@ -120,7 +123,7 @@ function useProvideSfx() {
 
   // play next after song ends - requires a void/while loop or event listener to execute the if statement logic with isPlaying. 
   // could also attempt to set up an event listenr with ambient sound and playNext values to begin testing for isPlaying in order to render next mp3 file.
-  const playnext = (file) => {
+  const playNext = (file) => {
     if(isPlaying) {
       setNextFile(file);
     }
@@ -128,18 +131,23 @@ function useProvideSfx() {
 
   // force ambient sound to play new file
   const ambientSound = (file) => {
-    setAuto(false);
+    // setSFXAuto(false);
+    setAuto(true);
     setAmbientFile(file);
-    stop();
-    // setAuto(false);
+    pause();
   };
 
   // force sfx to paly new sound
   const sfxSound = (file) => {
-    setAuto(false);
-    setSFXAuto(true);
-    setSfxFile(file);
-    playSfx(file);
+    setSFXAuto(true); // keeps buttons from triggering upon first click while muted
+    setAuto(true);
+    
+    // if file is different than current sfxfile, unmount current sound
+    if(sfxFile!==file) {
+      sound.unload(sfxFile)
+    }
+    // play next sound
+    setSfxFile(file, nextOne(file));
   };
 
   // ambient sound volume may be adjusted from 0 (muted) -> 1 (max)
@@ -152,9 +160,12 @@ function useProvideSfx() {
     setSfxVol(vol);
   };
 
-  return { mute, playbackSpeed, masterVolume, playnext, ambientSound, sfxSound, ambientVolume, sfxVolume, soundEnabled, playbackRate, masterVol, nextFile, ambientFile, sfxFile, ambientVol, sfxVol };
-};
+  const nextOne = (file) => {
+    playSfx(file);
+  };
 
+  return { mute, playbackSpeed, masterVolume, playNext, ambientSound, sfxSound, ambientVolume, sfxVolume, soundEnabled, playbackRate, masterVol, nextFile, ambientFile, sfxFile, ambientVol, sfxVol };
+};
 
 // const [soundEnabled, setSoundEnabled] = useState(false);
 // const [playbackRate, setPlaybackRate] = useState(1);

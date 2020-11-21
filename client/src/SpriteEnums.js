@@ -17,7 +17,19 @@ const SPRITE_ENUM = {
      * @description HOVER ME => "../../public/Assets/Buildings/Walls/Wall_Connection_NESW_Island.png"
     */
     "pop": {
-        src: "./Assets/sounds/372182__supersound23__pop.mp3",
+        src: "./Assets/sounds/372182__supersound23__pop_short.mp3",
+    },
+    "shot-1": {
+        src: "./Assets/sounds/416417__superphat__automatic-assault-rifle_shot_1.mp3",
+    },
+    "gun": {
+        src: "./Assets/sounds/416417__superphat__automatic-assault-rifle.mp3",
+        sprite: {
+            "shot-0": [355,2278],
+            "shot-1": [5059,6282],
+            "shot-2": [7589,8912],
+            "shot-3": [10119,11291]
+        }
     },
     "background-0": {
         src: "./Assets/sounds/522706__fran-ky__075-fm-ellberge-part-2.mp3",

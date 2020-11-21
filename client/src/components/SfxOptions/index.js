@@ -21,7 +21,7 @@ function SfxOptions() {
             sfx.ambientVolume(val);
         }else if(id==='sfx') {
             sfx.sfxVolume(val);
-        }else{
+        }else if(id==='master'){
             sfx.masterVolume(val);
         };
     }
