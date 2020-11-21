@@ -129,7 +129,7 @@ function useProvideSfx() {
 
   // force ambient sound to play new file
   const ambientSound = (file) => {
-    setAuto(false);
+    setAuto(true);
     setAmbientFile(file);
     stop();
     // setAuto(false);
