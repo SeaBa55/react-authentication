@@ -89,7 +89,6 @@ function useProvideSfx() {
     soundEnums[sfxFile].src,
     { 
       autoplay: sfxAuto,
-      preload:true,
       loop: false,
       volume: masterVol*sfxVol,
       id: sfxFile,
@@ -99,11 +98,11 @@ function useProvideSfx() {
 
   const mute = (enable) => {
     if(enable) {
-      // setAuto(false);
+      setAuto(false);
       setSoundEnabled(true);
       play();
     }else{
-      // setAuto(false);
+      setAuto(true);
       setSoundEnabled(false);
       pause();
     };
@@ -129,7 +128,7 @@ function useProvideSfx() {
 
   // force ambient sound to play new file
   const ambientSound = (file) => {
-    setAuto(true);
+    setAuto(false);
     setAmbientFile(file);
     stop();
     // setAuto(false);
@@ -138,7 +137,7 @@ function useProvideSfx() {
   // force sfx to paly new sound
   const sfxSound = (file) => {
     setAuto(false);
-    setSFXAuto(false);
+    setSFXAuto(true);
     setSfxFile(file);
     playSfx(file);
   };
