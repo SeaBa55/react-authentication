@@ -1,15 +1,19 @@
 import React from "react";
 import { useAuth } from "../../components/UserAuth";
 import history from "../../utils/history";
+import useSound from 'use-sound';
+import soundEnums from '../../SpriteEnums.js';
+import { useSfx } from "../../components/SoundSuite/index";
 
 function Rules() {
 
-    let auth = useAuth()
+    let auth = useAuth();
+    const sfx = useSfx();
 
     const userAuthState = () => {
-        auth.signinGuest(() => { history.push("/game") })
+        auth.signinGuest(() => { history.push("/game") });
     };
-
+    
     return (
         <>
             <div className="display-4 mb-1">
@@ -19,7 +23,10 @@ function Rules() {
             <button
                 className="btn btn-info btn-block"
                 type="button"
-                onClick={() => {
+                onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    sfx.sfxSound('pop');
                     history.push("/login");
                 }}
             >
@@ -29,7 +36,10 @@ function Rules() {
             <button
                 className="btn btn-info btn-block"
                 type="button"
-                onClick={() => {
+                onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    sfx.sfxSound('pop');
                     history.push("/signup");
                 }}
             >
@@ -39,7 +49,12 @@ function Rules() {
             <button
                 className="btn btn-info btn-block"
                 type="button"
-                onClick={userAuthState}
+                onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    sfx.sfxSound('pop');
+                    userAuthState();
+                }}
             >
                 Guest
             </button>

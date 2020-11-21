@@ -1,6 +1,4 @@
 import React, { useContext, createContext, useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch, Link, Redirect, useHistory, useLocation} from "react-router-dom";
-import history from "../../utils/history";
 
 // create new context instance of authContext to keep track of user login status
 const authContext = createContext();
